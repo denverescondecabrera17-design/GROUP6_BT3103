@@ -63,6 +63,26 @@ namespace CODEINN.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _541242678_782352804536515_6233556420554188928_n__1_ {
+            get {
+                object obj = ResourceManager.GetObject("541242678_782352804536515_6233556420554188928_n (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _541242678_782352804536515_6233556420554188928_n__1_1 {
+            get {
+                object obj = ResourceManager.GetObject("541242678_782352804536515_6233556420554188928_n (1)1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _541242678_782352804536515_6233556420554188928_n_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("541242678_782352804536515_6233556420554188928_n-removebg-preview", resourceCulture);
