@@ -57,7 +57,7 @@
             label4 = new Label();
             label10 = new Label();
             panel1 = new Panel();
-            btnDeleteadmin = new Button();
+            btnDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)dtgInfo1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             panel1.SuspendLayout();
@@ -314,22 +314,22 @@
             panel1.Size = new Size(1323, 63);
             panel1.TabIndex = 28;
             // 
-            // btnDeleteadmin
+            // btnDelete
             // 
-            btnDeleteadmin.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnDeleteadmin.Location = new Point(1191, 338);
-            btnDeleteadmin.Name = "btnDeleteadmin";
-            btnDeleteadmin.Size = new Size(94, 29);
-            btnDeleteadmin.TabIndex = 53;
-            btnDeleteadmin.Text = "Delete";
-            btnDeleteadmin.UseVisualStyleBackColor = true;
+            btnDelete.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnDelete.Location = new Point(1191, 338);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(94, 29);
+            btnDelete.TabIndex = 53;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
             // 
             // AdminGuestInfo
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1332, 710);
-            Controls.Add(btnDeleteadmin);
+            Controls.Add(btnDelete);
             Controls.Add(btnEditadmin);
             Controls.Add(btnSaveadmin);
             Controls.Add(btnAddadmin);
@@ -395,6 +395,6 @@
         private Label label4;
         private Label label10;
         private Panel panel1;
-        private Button btnDeleteadmin;
+        private Button btnDelete;
     }
 }
