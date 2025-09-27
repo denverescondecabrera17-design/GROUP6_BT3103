@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CODEINN.UI", "CODEINN.UI\CODEINN.UI.csproj", "{A03645B4-3D08-4B87-B943-D0A616434A5D}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CODEINN.Repository", "CODEINN.Repository\CODEINN.Repository.csproj", "{DB43FF1F-A220-4C5A-9625-4E700AFDE0BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CODEINN.Controller", "CODEINN.Controller\CODEINN.Controller.csproj", "{AA2AD8EC-9558-4327-B19B-7180F5068503}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CODEINN.DB", "CODEINN.DB\CODEINN.DB.sqlproj", "{BEBE4F67-5308-4C2D-9C09-0AE7B95E44E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,12 @@ Global
 		{AA2AD8EC-9558-4327-B19B-7180F5068503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA2AD8EC-9558-4327-B19B-7180F5068503}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA2AD8EC-9558-4327-B19B-7180F5068503}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEBE4F67-5308-4C2D-9C09-0AE7B95E44E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEBE4F67-5308-4C2D-9C09-0AE7B95E44E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEBE4F67-5308-4C2D-9C09-0AE7B95E44E6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BEBE4F67-5308-4C2D-9C09-0AE7B95E44E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEBE4F67-5308-4C2D-9C09-0AE7B95E44E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEBE4F67-5308-4C2D-9C09-0AE7B95E44E6}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
