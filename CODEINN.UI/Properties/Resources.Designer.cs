@@ -89,5 +89,65 @@ namespace CODEINN.UI.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _541242678_782352804536515_6233556420554188928_n_removebg_preview1 {
+            get {
+                object obj = ResourceManager.GetObject("541242678_782352804536515_6233556420554188928_n-removebg-preview1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _541242678_782352804536515_6233556420554188928_n_removebg_preview2 {
+            get {
+                object obj = ResourceManager.GetObject("541242678_782352804536515_6233556420554188928_n-removebg-preview2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Gemini_Generated_Image_y39n9hy39n9hy39n__1__removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Gemini_Generated_Image_y39n9hy39n9hy39n__1_-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Gemini_Generated_Image_y39n9hy39n9hy39n__2__removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Gemini_Generated_Image_y39n9hy39n9hy39n__2_-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Gemini_Generated_Image_y39n9hy39n9hy39n__3__removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Gemini_Generated_Image_y39n9hy39n9hy39n__3_-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Gemini_Generated_Image_y39n9hy39n9hy39n_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Gemini_Generated_Image_y39n9hy39n9hy39n-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

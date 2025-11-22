@@ -1,6 +1,6 @@
 ﻿namespace CODEINN.UI
 {
-    partial class Form1
+    partial class Login
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Username = new TextBox();
-            Password = new TextBox();
+            txtUsername = new TextBox();
+            txtPassword = new TextBox();
             Loginbutton = new Button();
             label1 = new Label();
             label2 = new Label();
@@ -38,22 +38,21 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // Username
+            // txtUsername
             // 
-            Username.Font = new Font("Arial Narrow", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Username.Location = new Point(136, 158);
-            Username.Name = "Username";
-            Username.Size = new Size(282, 30);
-            Username.TabIndex = 0;
+            txtUsername.Font = new Font("Arial Narrow", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtUsername.Location = new Point(136, 158);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(282, 30);
+            txtUsername.TabIndex = 0;
             // 
-            // Password
+            // txtPassword
             // 
-            Password.Font = new Font("Arial Narrow", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Password.Location = new Point(136, 219);
-            Password.Name = "Password";
-            Password.Size = new Size(282, 30);
-            Password.TabIndex = 1;
-            Password.TextChanged += Password_TextChanged;
+            txtPassword.Font = new Font("Arial Narrow", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtPassword.Location = new Point(136, 219);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(282, 30);
+            txtPassword.TabIndex = 1;
             // 
             // Loginbutton
             // 
@@ -64,6 +63,7 @@
             Loginbutton.TabIndex = 2;
             Loginbutton.Text = "Login";
             Loginbutton.UseVisualStyleBackColor = true;
+            Loginbutton.Click += Loginbutton_Click;
             // 
             // label1
             // 
@@ -74,7 +74,6 @@
             label1.Size = new Size(93, 24);
             label1.TabIndex = 3;
             label1.Text = "Username:";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -105,9 +104,8 @@
             label3.Size = new Size(214, 44);
             label3.TabIndex = 6;
             label3.Text = "WELCOME";
-            label3.Click += label3_Click;
             // 
-            // Form1
+            // Login
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -116,10 +114,10 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(Loginbutton);
-            Controls.Add(Password);
-            Controls.Add(Username);
+            Controls.Add(txtPassword);
+            Controls.Add(txtUsername);
             Controls.Add(pictureBox1);
-            Name = "Form1";
+            Name = "Login";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
@@ -128,8 +126,8 @@
 
         #endregion
 
-        private TextBox Username;
-        private TextBox Password;
+        private TextBox txtUsername;
+        private TextBox txtPassword;
         private Button Loginbutton;
         private Label label1;
         private Label label2;

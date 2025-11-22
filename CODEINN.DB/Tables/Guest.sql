@@ -7,7 +7,7 @@
 	Age INT CHECK (Age > 0),
 	BirthDate DATE NOT NULL,
 	Gender VARCHAR (10) CHECK (Gender IN ('Male', 'Female', 'Other')),
-	Email VARCHAR(100) UNIQUE,
+	Email VARCHAR(100) ,
 	PhoneNumber VARCHAR (20)
 
 

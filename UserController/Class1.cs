@@ -1,4 +1,4 @@
-﻿namespace CODEINN.Repository
+﻿namespace UserController
 {
     public class Class1
     {
