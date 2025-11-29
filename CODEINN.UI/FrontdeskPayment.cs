@@ -7,25 +7,40 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows.Forms;
 using CODEINN.Controller;
 using CODEINN.Model;
+using CODEINN.Model.CODEINN.Model;
+using CODEINN.Repository;
+using System.Data.SqlClient;
 
 namespace CODEINN.UI
 {
     public partial class FrontdeskPayment : Form
     {
         private PaymentsController paymentController;
+        private string connectionString = "Data Source=LAPTOP-JCHBPFPV\\SQLEXPRESS01;Initial Catalog=HOTELFinalldb;Integrated Security=True;TrustServerCertificate=True";
+
 
         public FrontdeskPayment()
         {
             InitializeComponent();
-            paymentController = new PaymentsController();
+            PaymentsRepository paymentRepository = new PaymentsRepository(); // Create repository
+            paymentController = new PaymentsController(paymentRepository);
+
         }
 
         private void FrontdeskPayment_Load(object sender, EventArgs e)
         {
-            dtgInfo.DataSource = paymentController.GetReservedPayments();
+            // Fetch the data from the controller
+            DataTable paymentData = paymentController.GetReservedPayments();
+
+            // Bind the data to the DataGridView
+            dtgInfo.DataSource = paymentData;
+
+            // Optionally, ensure the grid is refreshed if it's not automatically refreshing
+            dtgInfo.Refresh();
 
             txtSearchadmin.Enter += enter;
             txtSearchadmin.Leave += exit;
@@ -38,100 +53,137 @@ namespace CODEINN.UI
             {
                 DataGridViewRow row = dtgInfo.Rows[e.RowIndex];
 
-                txtLastnameadmin.Text = row.Cells["LastName"].Value?.ToString();
-                txtFirstnameadmin.Text = row.Cells["FirstName"].Value?.ToString();
-                txtInitialadmin.Text = row.Cells["MiddleInitial"].Value?.ToString();
-                txtGuestIdadmin.Text = row.Cells["ReservationID"].Value?.ToString();
+                // Reservation & Guest Info
 
-                txt_roomtype.Text = row.Cells["RoomType"].Value?.ToString();
 
-                object checkInObj = row.Cells["CheckInDate"].Value;
-                object checkOutObj = row.Cells["CheckOutDate"].Value;
+                txtLastnameadmin.Text = row.Cells["LastName"].Value.ToString();
+                txtFirstnameadmin.Text = row.Cells["FirstName"].Value.ToString();
+                txtInitialadmin.Text = row.Cells["MiddleInitial"].Value.ToString();
 
-                DateTime checkIn, checkOut;
+                // Room Info
+                string roomType = row.Cells["RoomType"].Value.ToString();
+                string roomNumber = row.Cells["RoomNumber"].Value.ToString();
 
-                try
+                // Room type and room number will just be shown in textboxes now (no ComboBox needed)
+                txt_roomtype.Text = roomType;
+                txt_num.Text = roomNumber;
+
+                // Dates & Time
+                checkindate.Value = Convert.ToDateTime(row.Cells["CheckInDate"].Value);
+                checkoutdate.Value = Convert.ToDateTime(row.Cells["CheckOutDate"].Value);
+
+                // Number of nights
+                txt_num.Text = row.Cells["NumberOfNights"].Value.ToString();
+
+                // Balance (Remaining balance from the query)
+                if (row.Cells["RemainingBalance"] != null && row.Cells["RemainingBalance"].Value != DBNull.Value)
                 {
-                    if (checkInObj is DateTime)
-                        checkIn = (DateTime)checkInObj;
-                    else
-                        checkIn = Convert.ToDateTime(checkInObj, CultureInfo.InvariantCulture);
-
-                    if (checkOutObj is DateTime)
-                        checkOut = (DateTime)checkOutObj;
-                    else
-                        checkOut = Convert.ToDateTime(checkOutObj, CultureInfo.InvariantCulture);
-
-                    checkindate.Value = checkIn;
-                    checkoutdate.Value = checkOut;
-
-                    int nights = (checkOut - checkIn).Days;
-                    if (nights < 1) nights = 1;
-                    txt_num.Text = nights.ToString();
-
-                    decimal pricePerNight = Convert.ToDecimal(row.Cells["Price"].Value);
-                    decimal totalPrice = pricePerNight * nights;
-
-                    txt_price.Text = totalPrice.ToString("0.00");
+                    decimal balance = Convert.ToDecimal(row.Cells["RemainingBalance"].Value);
+                    txt_balance.Text = balance.ToString("0.00");
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Date format error:\n" + ex.Message);
+                    txt_balance.Text = "0.00"; // Default if no balance is found
                 }
 
+                // Status
                 txt_status.Text = row.Cells["Status"].Value?.ToString();
             }
         }
 
         private void txt_amount_TextChanged(object sender, EventArgs e)
         {
-            if (decimal.TryParse(txt_amount.Text, out decimal received) &&
-               decimal.TryParse(txt_price.Text, out decimal price))
-            {
-                txt_change.Text = (received - price).ToString("0.00");
-            }
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-
-            if (string.IsNullOrWhiteSpace(txtGuestIdadmin.Text))
+            // Ensure a row is selected in the DataGridView
+            if (dtgInfo.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Please select a reservation first.");
+                MessageBox.Show("Please select a reservation first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get the ReservationID from the selected row
+            var selectedRow = dtgInfo.SelectedRows[0];  // Get the first selected row
+            int paymentId = Convert.ToInt32(selectedRow.Cells["ReservationID"].Value);  // Get the ReservationID
+
+            var reservation = paymentController.GetReservationById(paymentId);
+
+            if (reservation == null)
+            {
+                MessageBox.Show("Reservation not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             try
             {
-                var payment = new PaymentModel
+                using (var conn = new SqlConnection(connectionString))
                 {
-                    ReservationID = int.Parse(txtGuestIdadmin.Text),
-                    AmountReceived = decimal.Parse(txt_amount.Text),
-                    Change = decimal.Parse(txt_change.Text),
-                    Price = decimal.Parse(txt_price.Text),
-                    Status = "Paid"
-                };
+                    conn.Open();
 
-                // Save payment
-                paymentController.AddPayment(payment);
+                    using (var transaction = conn.BeginTransaction()) // Start transaction
+                    {
+                        try
+                        {
+                            // Step 1: Delete the reservation
+                            paymentController.DeleteReservation(paymentId, transaction);
 
-                // Update reservation status
-                paymentController.UpdatePaymentStatus(payment.ReservationID, "Paid");
+                            // Step 2: Update room availability to "Available"
+                            string roomNumber = reservation.RoomNumber;  // RoomNumber is a string, not an int
+                            paymentController.UpdateRoomAvailability(roomNumber, "Available", transaction); // Pass the string roomNumber
 
-                // Free the room
-                paymentController.UpdateRoomAvailability(payment.ReservationID, "Available");
+                            // Step 3: Commit the transaction
+                            transaction.Commit();
 
-                MessageBox.Show("Payment completed successfully!");
+                            // Success message
+                            MessageBox.Show("Guests been Checked_Out!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                dtgInfo.DataSource = paymentController.GetReservedPayments();
+                            // Refresh the DataGridView
+                            dtgInfo.DataSource = paymentController.GetReservedPayments();
+
+                            // Optionally clear fields after processing
+                            ClearFields();
+                        }
+                        catch (Exception ex)
+                        {
+                            // If any error occurs, rollback the transaction and display the error
+                            transaction.Rollback();
+                            MessageBox.Show($"Error during check-out: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Payment error: " + ex.Message);
+                // If there's a problem opening the connection or other DB issues
+                MessageBox.Show($"Database connection error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            ClearFields();
         }
+
+        private void ClearFields()
+        {
+            txtLastnameadmin.Clear();
+            txtFirstnameadmin.Clear();
+            txtInitialadmin.Clear();
+            lbl_guestid.Text = "";
+            txt_roomtype.Clear();
+            txt_status.Clear();
+
+            // Set the balance and amount to 0.00 if they are empty
+            txt_balance.Text = "0.00";
+            txt_change.Text = "0.00";
+            txt_amount.Text = "0.00";
+            txt_num.Clear();
+
+            checkindate.Value = DateTime.Today;
+            checkoutdate.Value = DateTime.Today;
+
+            txtSearchadmin.Clear();
+        }
+
+
 
         private void btnBack1_Click(object sender, EventArgs e)
         {
@@ -139,24 +191,7 @@ namespace CODEINN.UI
             dashboard.Show();
             this.Hide();
         }
-        private void ClearFields()
-        {
-            txtLastnameadmin.Clear();
-            txtFirstnameadmin.Clear();
-            txtInitialadmin.Clear();
-            txtGuestIdadmin.Clear();
-            txt_roomtype.Clear();
-            txt_status.Clear();
-            txt_price.Clear();
-            txt_amount.Clear();
-            txt_change.Clear();
-            txt_num.Clear();
-
-            checkindate.Value = DateTime.Today;
-            checkoutdate.Value = DateTime.Today;
-
-
-        }
+  
 
         private void enter(object sender, EventArgs e)
         {
@@ -191,6 +226,22 @@ namespace CODEINN.UI
                 // Show filtered results
                 dtgInfo.DataSource = paymentController.SearchReservedPayments(keyword);
             }
+        }
+
+        private void txt_amount_TextChanged_1(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(txt_amount.Text, out decimal received) &&
+               decimal.TryParse(txt_balance.Text, out decimal price))
+            {
+                txt_change.Text = (received - price).ToString("0.00");
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Invoice invoice = new Invoice();
+            invoice.Show();
+            this.Hide();
         }
     }
 }

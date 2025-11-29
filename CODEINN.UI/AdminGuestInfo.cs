@@ -39,11 +39,14 @@ namespace CODEINN.UI
                     Gender = cbGenderadmin.Text,
                     Address = txtadress.Text,
                     BirthDate = birthDate,
-                    Age = age
+                    Age = age,
+                    Suffix = txt_suffix.Text,
+                    IDType = cb_idtype.Text
+
                 };
 
                 int guestId = guestController.AddGuest(guest);
-                txtGuestIdadmin.Text = guestId.ToString();
+                lbl_guestid.Text = guestId.ToString();
 
                 LoadGuestData();
 
@@ -84,7 +87,7 @@ namespace CODEINN.UI
         {
             try
             {
-                if (!int.TryParse(txtGuestIdadmin.Text, out int guestId))
+                if (!int.TryParse(lbl_guestid.Text, out int guestId))
                 {
                     MessageBox.Show("Select a guest to save.");
                     return;
@@ -106,7 +109,10 @@ namespace CODEINN.UI
                     Gender = cbGenderadmin.Text,
                     Address = txtadress.Text,
                     BirthDate = birthDate,
-                    Age = age
+                    Age = age,
+                    Suffix = txt_suffix.Text,
+                    IDType = cb_idtype.Text,
+
                 };
 
                 guestController.EditGuest(guest);
@@ -122,18 +128,46 @@ namespace CODEINN.UI
         }
         private void btnEditadmin_Click(object sender, EventArgs e)
         {
+
             if (dtgInfo1.CurrentRow == null) return;
 
             int guestId = Convert.ToInt32(dtgInfo1.CurrentRow.Cells["GuestID"].Value);
             var guest = guestController.GetGuestbyID(guestId);
 
-            txtGuestIdadmin.Text = guest.GuestID.ToString();
-            txtLastnameadmin.Text = guest.LastName;
-            txtFirstnameadmin.Text = guest.FirstName;
-            txtInitialadmin.Text = guest.MiddleInitial;
-            txtPhoneadmin.Text = guest.ContactNumber;
-            txtEmailadmin.Text = guest.Email;
+            if (guest == null)
+            {
+                MessageBox.Show("Guest record not found.");
+                return;
+            }
 
+            lbl_guestid.Text = guest.GuestID.ToString();
+            txtLastnameadmin.Text = guest.LastName ?? "";
+            txtFirstnameadmin.Text = guest.FirstName ?? "";
+            txtInitialadmin.Text = guest.MiddleInitial ?? "";
+            txt_suffix.Text = guest.Suffix ?? "";
+            txtPhoneadmin.Text = guest.ContactNumber ?? "";
+            txtEmailadmin.Text = guest.Email ?? "";
+            cbGenderadmin.Text = guest.Gender ?? "";
+            txtadress.Text = guest.Address ?? "";
+            cb_idtype.Text = guest.IDType ?? "";
+
+            // SAFE BirthDate handling (because BirthDate is nullable)
+            if (guest.BirthDate.HasValue)
+            {
+                dtpBirtdateadmin.Value = guest.BirthDate.Value;
+
+                int age = DateTime.Now.Year - guest.BirthDate.Value.Year;
+                if (DateTime.Now.Date < guest.BirthDate.Value.AddYears(age))
+                    age--;
+
+                txtAgeadmin.Text = age.ToString();
+            }
+            else
+            {
+                // No BirthDate stored → reset fields
+                dtpBirtdateadmin.Value = DateTime.Today;
+                txtAgeadmin.Text = "";
+            }
 
         }
 
@@ -184,14 +218,17 @@ namespace CODEINN.UI
             DataGridViewRow row = dtgInfo1.Rows[e.RowIndex];
 
             // Fill textboxes
-            txtGuestIdadmin.Text = row.Cells["GuestID"].Value?.ToString();
+            lbl_guestid.Text = row.Cells["GuestID"].Value?.ToString();
             txtLastnameadmin.Text = row.Cells["LastName"].Value?.ToString();
+            txt_suffix.Text = row.Cells["Suffix"].Value?.ToString();
             txtFirstnameadmin.Text = row.Cells["FirstName"].Value?.ToString();
             txtInitialadmin.Text = row.Cells["MiddleInitial"].Value?.ToString();
             txtPhoneadmin.Text = row.Cells["ContactNumber"].Value?.ToString();
             txtEmailadmin.Text = row.Cells["Email"].Value?.ToString();
             cbGenderadmin.Text = row.Cells["Gender"].Value?.ToString();
             txtadress.Text = row.Cells["Address"].Value?.ToString();
+            cb_idtype.Text = row.Cells["IDType"].Value?.ToString();
+
 
             // ✅ Handle BirthDate safely and auto-calculate age
             if (row.Cells["BirthDate"].Value != DBNull.Value && row.Cells["BirthDate"].Value != null)
@@ -225,13 +262,13 @@ namespace CODEINN.UI
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtGuestIdadmin.Text))
+            if (string.IsNullOrWhiteSpace(lbl_guestid.Text))
             {
                 MessageBox.Show("Please select a guest to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            int guestId = Convert.ToInt32(txtGuestIdadmin.Text);
+            int guestId = Convert.ToInt32(lbl_guestid.Text);
 
             var confirm = MessageBox.Show("Are you sure you want to delete this guest?",
                                           "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -254,7 +291,7 @@ namespace CODEINN.UI
         }
         private void ClearGuestFields()
         {
-            txtGuestIdadmin.Clear();
+            lbl_guestid.Text = "";
             txtLastnameadmin.Clear();
             txtFirstnameadmin.Clear();
             txtInitialadmin.Clear();
@@ -262,9 +299,14 @@ namespace CODEINN.UI
             txtEmailadmin.Clear();
             txtadress.Clear();
             txtAgeadmin.Clear();
+            txt_suffix.Clear();
+
             cbGenderadmin.SelectedIndex = -1;
+            cb_idtype.SelectedIndex = -1;   // FIXED
+
             dtpBirtdateadmin.Value = DateTime.Today;
         }
+
 
         private void enter(object sender, EventArgs e)
         {
@@ -286,15 +328,20 @@ namespace CODEINN.UI
 
         private void ClearFields()
         {
+            lbl_guestid.Text = "";
             txtLastnameadmin.Clear();
             txtFirstnameadmin.Clear();
             txtInitialadmin.Clear();
             txtPhoneadmin.Clear();
             txtEmailadmin.Clear();
-            dtpBirtdateadmin.ResetText();
-            txtAgeadmin.Clear();
-            cbGenderadmin.SelectedIndex = -1;
             txtadress.Clear();
+            txtAgeadmin.Clear();
+            txt_suffix.Clear();
+
+            cbGenderadmin.SelectedIndex = -1;
+            cb_idtype.SelectedIndex = -1;   // FIXED
+
+            dtpBirtdateadmin.Value = DateTime.Today;
         }
 
     }

@@ -16,5 +16,10 @@ namespace CODEINN.UI
         {
             InitializeComponent();
         }
+
+        private void Invoice_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -1,6 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using CODEINN.Model;
+using CODEINN.Model.CODEINN.Model;
 using CODEINN.Repository;
+using Microsoft.Data.Sql;
+using System.Data.SqlClient;
 
 namespace CODEINN.Controller
 {
@@ -8,34 +12,65 @@ namespace CODEINN.Controller
     {
         private readonly PaymentsRepository repository;
 
-        public PaymentsController()
+        // Injecting the repository
+        public PaymentsController(PaymentsRepository repository)
         {
-            repository = new PaymentsRepository();
+            this.repository = repository;
         }
 
-        public void AddPayment(PaymentModel payment)
+        // ✔ ADD PAYMENT
+        public int AddPayment(PaymentModel payment)
         {
-            repository.AddPayment(payment);
+            return repository.AddPayment(payment);
         }
 
+        // ✔ UPDATE PAYMENT STATUS
         public void UpdatePaymentStatus(int reservationId, string status)
         {
             repository.UpdatePaymentStatus(reservationId, status);
         }
 
+        // ✔ GET RESERVED PAYMENTS
         public DataTable GetReservedPayments()
         {
             return repository.GetReservedPayments();
         }
+
+        // ✔ SEARCH RESERVED PAYMENTS
         public DataTable SearchReservedPayments(string keyword)
         {
             return repository.SearchReservedPayments(keyword);
         }
-        public void UpdateRoomAvailability(int reservationId, string availability)
+
+        // ✔ GET BALANCE FOR RESERVATION
+        public decimal GetBalanceForReservation(int reservationId)
         {
-            var repo = new PaymentsRepository();
-            repo.UpdateRoomAvailability(reservationId, availability);
+            return repository.GetBalanceForReservation(reservationId);
         }
+
+        public void DeleteReservation(int reservationId, SqlTransaction transaction)
+        {
+            // Call repository method and pass the transaction
+            repository.DeleteReservation(reservationId, transaction);
+        }
+
+        // Modify other methods that need the transaction as well (like UpdateRoomAvailability)
+
+
+        // ✔ GET RESERVATION BY ID
+        public Reservation GetReservationById(int reservationId)
+        {
+            return repository.GetReservationById(reservationId);
+        }
+
+        // Controller method to update room availability
+        // In the PaymentsController class
+        public void UpdateRoomAvailability(string roomNumber, string availability, SqlTransaction transaction)
+        {
+            // Pass the roomNumber and availability string to the repository, including the transaction
+            repository.UpdateRoomAvailability(roomNumber, availability, transaction);
+        }
+
 
     }
 }

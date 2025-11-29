@@ -34,11 +34,7 @@
             label5 = new Label();
             txt_price = new TextBox();
             dtgInfo1 = new DataGridView();
-            btnview1 = new Button();
-            btnDelete = new Button();
-            btnEditadmin = new Button();
             btnSaveadmin = new Button();
-            btnAddadmin = new Button();
             btnSearch1 = new Button();
             txtSearchadmin = new TextBox();
             panel2 = new Panel();
@@ -145,63 +141,23 @@
             // dtgInfo1
             // 
             dtgInfo1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgInfo1.Location = new Point(604, 357);
+            dtgInfo1.Location = new Point(604, 240);
             dtgInfo1.Name = "dtgInfo1";
             dtgInfo1.RowHeadersWidth = 51;
-            dtgInfo1.Size = new Size(1291, 621);
+            dtgInfo1.Size = new Size(1291, 738);
             dtgInfo1.TabIndex = 50;
             dtgInfo1.CellContentClick += dtgInfo1_CellContentClick;
-            // 
-            // btnview1
-            // 
-            btnview1.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnview1.Location = new Point(931, 260);
-            btnview1.Name = "btnview1";
-            btnview1.Size = new Size(94, 37);
-            btnview1.TabIndex = 59;
-            btnview1.Text = "View";
-            btnview1.UseVisualStyleBackColor = true;
-            // 
-            // btnDelete
-            // 
-            btnDelete.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnDelete.Location = new Point(1037, 260);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(94, 37);
-            btnDelete.TabIndex = 58;
-            btnDelete.Text = "Delete";
-            btnDelete.UseVisualStyleBackColor = true;
-            // 
-            // btnEditadmin
-            // 
-            btnEditadmin.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEditadmin.Location = new Point(825, 260);
-            btnEditadmin.Name = "btnEditadmin";
-            btnEditadmin.Size = new Size(94, 37);
-            btnEditadmin.TabIndex = 57;
-            btnEditadmin.Text = "Edit";
-            btnEditadmin.UseVisualStyleBackColor = true;
             // 
             // btnSaveadmin
             // 
             btnSaveadmin.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnSaveadmin.Location = new Point(716, 260);
+            btnSaveadmin.Location = new Point(259, 366);
             btnSaveadmin.Name = "btnSaveadmin";
             btnSaveadmin.Size = new Size(94, 37);
             btnSaveadmin.TabIndex = 56;
             btnSaveadmin.Text = "Save";
             btnSaveadmin.UseVisualStyleBackColor = true;
             btnSaveadmin.Click += btnSaveadmin_Click;
-            // 
-            // btnAddadmin
-            // 
-            btnAddadmin.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnAddadmin.Location = new Point(603, 260);
-            btnAddadmin.Name = "btnAddadmin";
-            btnAddadmin.Size = new Size(94, 37);
-            btnAddadmin.TabIndex = 55;
-            btnAddadmin.Text = "Add";
-            btnAddadmin.UseVisualStyleBackColor = true;
             // 
             // btnSearch1
             // 
@@ -228,6 +184,7 @@
             panel2.BackColor = SystemColors.ActiveCaption;
             panel2.Controls.Add(cb_status);
             panel2.Controls.Add(cb_roomtype);
+            panel2.Controls.Add(btnSaveadmin);
             panel2.Controls.Add(room_number);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(label2);
@@ -274,11 +231,6 @@
             ClientSize = new Size(1924, 987);
             Controls.Add(btnSearch1);
             Controls.Add(txtSearchadmin);
-            Controls.Add(btnview1);
-            Controls.Add(btnDelete);
-            Controls.Add(btnEditadmin);
-            Controls.Add(btnSaveadmin);
-            Controls.Add(btnAddadmin);
             Controls.Add(dtgInfo1);
             Controls.Add(panel1);
             Controls.Add(panel2);
@@ -307,11 +259,7 @@
         private Label label5;
         private TextBox txt_price;
         private DataGridView dtgInfo1;
-        private Button btnview1;
-        private Button btnDelete;
-        private Button btnEditadmin;
         private Button btnSaveadmin;
-        private Button btnAddadmin;
         private Button btnSearch1;
         private TextBox txtSearchadmin;
         private Panel panel2;

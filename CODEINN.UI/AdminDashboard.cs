@@ -54,7 +54,7 @@ namespace CODEINN.UI
         {
             UpdateAvailableRoomCount();
             UpdateOccupiedRoomCount();
-
+            lblUnavailableRooms.Text = roomController.GetUnavailableRoomsCount().ToString();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -83,6 +83,13 @@ namespace CODEINN.UI
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AdminHistory history = new AdminHistory();
+            history.Show();
+            this.Hide();
         }
     }
 }

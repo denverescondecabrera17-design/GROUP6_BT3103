@@ -25,8 +25,10 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            button1 = new Button();
             label4 = new Label();
             btnLogout = new Button();
+            pictureBox6 = new PictureBox();
             panel2 = new Panel();
             btnPayment = new Button();
             btnBooking = new Button();
@@ -41,7 +43,10 @@
             grbRoomsoccupied = new GroupBox();
             lblRoomsoccupied = new Label();
             pictureBox1 = new PictureBox();
+            groupBox1 = new GroupBox();
+            label1 = new Label();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -50,6 +55,7 @@
             grbRAvailable.SuspendLayout();
             grbRoomsoccupied.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -57,16 +63,28 @@
             panel1.BackColor = Color.SteelBlue;
             panel1.Controls.Add(label4);
             panel1.Controls.Add(btnLogout);
+            panel1.Controls.Add(pictureBox6);
             panel1.Location = new Point(0, 2);
             panel1.Name = "panel1";
             panel1.Size = new Size(1926, 140);
             panel1.TabIndex = 0;
             // 
+            // button1
+            // 
+            button1.Font = new Font("Arial", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.Location = new Point(1588, 223);
+            button1.Name = "button1";
+            button1.Size = new Size(126, 54);
+            button1.TabIndex = 32;
+            button1.Text = "History";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Arial", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(72, 44);
+            label4.Location = new Point(199, 43);
             label4.Name = "label4";
             label4.Size = new Size(215, 44);
             label4.TabIndex = 2;
@@ -82,6 +100,16 @@
             btnLogout.Text = "Logout";
             btnLogout.UseVisualStyleBackColor = true;
             btnLogout.Click += btnLogout_Click;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = Properties.Resources._541242678_782352804536515_6233556420554188928_n_removebg_preview2;
+            pictureBox6.Location = new Point(-102, -23);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(413, 183);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 31;
+            pictureBox6.TabStop = false;
             // 
             // panel2
             // 
@@ -106,7 +134,7 @@
             btnPayment.Name = "btnPayment";
             btnPayment.Size = new Size(243, 121);
             btnPayment.TabIndex = 3;
-            btnPayment.Text = "Payment";
+            btnPayment.Text = "History";
             btnPayment.UseVisualStyleBackColor = true;
             btnPayment.Click += btnPayment_Click;
             // 
@@ -188,7 +216,7 @@
             grbRAvailable.BackColor = SystemColors.ButtonHighlight;
             grbRAvailable.Controls.Add(lbl_availrooms);
             grbRAvailable.Cursor = Cursors.SizeNS;
-            grbRAvailable.Location = new Point(428, 350);
+            grbRAvailable.Location = new Point(442, 225);
             grbRAvailable.Name = "grbRAvailable";
             grbRAvailable.Size = new Size(289, 163);
             grbRAvailable.TabIndex = 2;
@@ -211,7 +239,7 @@
             grbRoomsoccupied.BackColor = SystemColors.ButtonHighlight;
             grbRoomsoccupied.Controls.Add(lblRoomsoccupied);
             grbRoomsoccupied.Cursor = Cursors.SizeNS;
-            grbRoomsoccupied.Location = new Point(428, 642);
+            grbRoomsoccupied.Location = new Point(442, 450);
             grbRoomsoccupied.Name = "grbRoomsoccupied";
             grbRoomsoccupied.Size = new Size(289, 163);
             grbRoomsoccupied.TabIndex = 3;
@@ -239,23 +267,48 @@
             pictureBox1.TabIndex = 4;
             pictureBox1.TabStop = false;
             // 
+            // groupBox1
+            // 
+            groupBox1.BackColor = SystemColors.ButtonHighlight;
+            groupBox1.Controls.Add(label1);
+            groupBox1.Cursor = Cursors.SizeNS;
+            groupBox1.Location = new Point(442, 673);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(289, 163);
+            groupBox1.TabIndex = 4;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Unavailable Room";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Arial", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(117, 64);
+            label1.Name = "label1";
+            label1.Size = new Size(55, 39);
+            label1.TabIndex = 1;
+            label1.Text = "00";
+            // 
             // FrontdeskDashboard
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Silver;
             ClientSize = new Size(1924, 987);
+            Controls.Add(groupBox1);
             Controls.Add(panel1);
             Controls.Add(pictureBox1);
             Controls.Add(grbRoomsoccupied);
             Controls.Add(grbRAvailable);
             Controls.Add(panel2);
+            Controls.Add(button1);
             Name = "FrontdeskDashboard";
             Text = "Dashboard";
             WindowState = FormWindowState.Maximized;
             Load += Dashboard_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
@@ -266,6 +319,8 @@
             grbRoomsoccupied.ResumeLayout(false);
             grbRoomsoccupied.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -288,5 +343,9 @@
         private PictureBox pictureBox3;
         private PictureBox pictureBox4;
         private PictureBox pictureBox5;
+        private PictureBox pictureBox6;
+        private GroupBox groupBox1;
+        private Label label1;
+        private Button button1;
     }
 }

@@ -13,6 +13,11 @@ namespace CODEINN.Controller
             roomRepository = new RoomRepository();
         }
 
+        public int GetUnavailableRoomsCount()
+        {
+            return roomRepository.GetUnavailableRoomsCount();
+        }
+
         public List<Rooms> GetAllRooms()
         {
             return roomRepository.GetAllRooms();

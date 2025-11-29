@@ -78,11 +78,13 @@ namespace CODEINN.UI
                     Gender = cbGender.Text,
                     Address = txtadress.Text,
                     BirthDate = birthDate,
-                    Age = age
+                    Age = age,
+                    Suffix = txt_suffix.Text,
+                    IDType = cb_idtype.Text
                 };
 
                 int guestId = guestController.AddGuest(guest);
-                txtGuestId.Text = guestId.ToString();
+                lbl_guestid.Text = guestId.ToString();
 
                 LoadGuestData();
                 ClearFields();
@@ -101,7 +103,7 @@ namespace CODEINN.UI
         private void btnSave_Click(object sender, EventArgs e)
         {
 
-            if (!int.TryParse(txtGuestId.Text, out int guestId))
+            if (!int.TryParse(lbl_guestid.Text, out int guestId))
             {
                 MessageBox.Show("Please select a guest first.");
                 return;
@@ -122,7 +124,9 @@ namespace CODEINN.UI
                 Gender = cbGender.Text,
                 Address = txtadress.Text,
                 BirthDate = birthDate,
-                Age = age
+                Age = age,
+                Suffix = txt_suffix.Text,
+                IDType = cb_idtype.Text
             };
 
             guestController.EditGuest(guest);
@@ -156,14 +160,17 @@ namespace CODEINN.UI
             if (e.RowIndex < 0) return;
             DataGridViewRow row = dtgInfo.Rows[e.RowIndex];
 
-            txtGuestId.Text = row.Cells["GuestID"].Value?.ToString();
+            lbl_guestid.Text = row.Cells["GuestID"].Value?.ToString();
             txtLastname.Text = row.Cells["LastName"].Value?.ToString();
+
             txtFirstname.Text = row.Cells["FirstName"].Value?.ToString();
+            txt_suffix.Text = row.Cells["Suffix"].Value?.ToString();
             txtInitial.Text = row.Cells["MiddleInitial"].Value?.ToString();
             txtPhone.Text = row.Cells["ContactNumber"].Value?.ToString();
             txtEmail.Text = row.Cells["Email"].Value?.ToString();
             cbGender.Text = row.Cells["Gender"].Value?.ToString();
             txtadress.Text = row.Cells["Address"].Value?.ToString();
+            cb_idtype.Text = row.Cells["IDType"].Value?.ToString();
 
             if (DateTime.TryParse(row.Cells["BirthDate"].Value?.ToString(), out DateTime birthDate))
             {
@@ -180,12 +187,13 @@ namespace CODEINN.UI
         }
         private void ClearFields()
         {
-            txtGuestId.Clear();
+            lbl_guestid.Text = "";
             txtLastname.Clear();
             txtFirstname.Clear();
             txtInitial.Clear();
             txtPhone.Clear();
             txtEmail.Clear();
+            txt_suffix.Clear();
             txtadress.Clear();
             cbGender.SelectedIndex = -1;
             dtpBirtdate.Value = DateTime.Today;

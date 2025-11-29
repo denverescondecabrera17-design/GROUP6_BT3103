@@ -39,8 +39,6 @@
             label1 = new Label();
             label6 = new Label();
             txtInitialadmin = new TextBox();
-            label2 = new Label();
-            txt_time = new TextBox();
             label9 = new Label();
             dateTimePicker1 = new DateTimePicker();
             btnview = new Button();
@@ -56,9 +54,17 @@
             combo_roomtype = new ComboBox();
             lbl_guestid = new Label();
             panel2 = new Panel();
+            label15 = new Label();
+            lbl_balance = new Label();
+            label16 = new Label();
+            txt_payment = new TextBox();
+            label14 = new Label();
+            textBox1 = new TextBox();
+            label2 = new Label();
             dtg_guestinfo = new DataGridView();
             label11 = new Label();
             label13 = new Label();
+            button2 = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dtgInfo).BeginInit();
@@ -72,9 +78,9 @@
             label4.Font = new Font("Arial", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.Location = new Point(153, 52);
             label4.Name = "label4";
-            label4.Size = new Size(349, 44);
+            label4.Size = new Size(534, 44);
             label4.TabIndex = 2;
-            label4.Text = "Guest Reservation";
+            label4.Text = "Guest Reservation / Payment";
             // 
             // panel1
             // 
@@ -115,7 +121,7 @@
             txtSearchadmin.ForeColor = Color.Gray;
             txtSearchadmin.Location = new Point(595, 190);
             txtSearchadmin.Name = "txtSearchadmin";
-            txtSearchadmin.Size = new Size(601, 34);
+            txtSearchadmin.Size = new Size(656, 34);
             txtSearchadmin.TabIndex = 44;
             txtSearchadmin.Text = "Search Guest";
             txtSearchadmin.TextChanged += txtSearchadmin_TextChanged;
@@ -125,7 +131,7 @@
             // dtpBirtdateadmin
             // 
             dtpBirtdateadmin.Font = new Font("Arial", 12F);
-            dtpBirtdateadmin.Location = new Point(192, 448);
+            dtpBirtdateadmin.Location = new Point(193, 396);
             dtpBirtdateadmin.Name = "dtpBirtdateadmin";
             dtpBirtdateadmin.Size = new Size(319, 30);
             dtpBirtdateadmin.TabIndex = 65;
@@ -151,7 +157,7 @@
             label8.AllowDrop = true;
             label8.AutoSize = true;
             label8.Font = new Font("Arial", 12F);
-            label8.Location = new Point(13, 454);
+            label8.Location = new Point(14, 402);
             label8.Name = "label8";
             label8.Size = new Size(140, 23);
             label8.TabIndex = 54;
@@ -213,33 +219,15 @@
             txtInitialadmin.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtInitialadmin.Location = new Point(192, 239);
             txtInitialadmin.Name = "txtInitialadmin";
-            txtInitialadmin.Size = new Size(70, 30);
+            txtInitialadmin.Size = new Size(90, 30);
             txtInitialadmin.TabIndex = 64;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Arial", 12F);
-            label2.Location = new Point(13, 395);
-            label2.Name = "label2";
-            label2.Size = new Size(58, 23);
-            label2.TabIndex = 66;
-            label2.Text = "Time:";
-            // 
-            // txt_time
-            // 
-            txt_time.Font = new Font("Arial", 12F);
-            txt_time.Location = new Point(192, 392);
-            txt_time.Name = "txt_time";
-            txt_time.Size = new Size(319, 30);
-            txt_time.TabIndex = 67;
             // 
             // label9
             // 
             label9.AllowDrop = true;
             label9.AutoSize = true;
             label9.Font = new Font("Arial", 12F);
-            label9.Location = new Point(13, 505);
+            label9.Location = new Point(14, 453);
             label9.Name = "label9";
             label9.Size = new Size(153, 23);
             label9.TabIndex = 68;
@@ -248,7 +236,7 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Font = new Font("Arial", 12F);
-            dateTimePicker1.Location = new Point(192, 499);
+            dateTimePicker1.Location = new Point(193, 447);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(319, 30);
             dateTimePicker1.TabIndex = 69;
@@ -257,7 +245,7 @@
             // btnview
             // 
             btnview.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnview.Location = new Point(939, 258);
+            btnview.Location = new Point(928, 375);
             btnview.Name = "btnview";
             btnview.Size = new Size(94, 37);
             btnview.TabIndex = 74;
@@ -300,17 +288,17 @@
             // dtgInfo
             // 
             dtgInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dtgInfo.Location = new Point(575, 713);
+            dtgInfo.Location = new Point(575, 686);
             dtgInfo.Name = "dtgInfo";
             dtgInfo.RowHeadersWidth = 51;
-            dtgInfo.Size = new Size(1291, 277);
+            dtgInfo.Size = new Size(1291, 247);
             dtgInfo.TabIndex = 70;
             dtgInfo.CellContentClick += dtgInfo_CellContentClick;
             // 
             // button1
             // 
             button1.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.Location = new Point(1047, 258);
+            button1.Location = new Point(951, 258);
             button1.Name = "button1";
             button1.Size = new Size(94, 37);
             button1.TabIndex = 75;
@@ -322,7 +310,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Arial", 12F);
-            label10.Location = new Point(13, 554);
+            label10.Location = new Point(14, 502);
             label10.Name = "label10";
             label10.Size = new Size(182, 23);
             label10.TabIndex = 76;
@@ -331,7 +319,7 @@
             // txt_numnights
             // 
             txt_numnights.Font = new Font("Arial", 12F);
-            txt_numnights.Location = new Point(192, 554);
+            txt_numnights.Location = new Point(193, 502);
             txt_numnights.Name = "txt_numnights";
             txt_numnights.Size = new Size(319, 30);
             txt_numnights.TabIndex = 77;
@@ -372,13 +360,20 @@
             lbl_guestid.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_guestid.Location = new Point(191, 71);
             lbl_guestid.Name = "lbl_guestid";
-            lbl_guestid.Size = new Size(103, 23);
+            lbl_guestid.Size = new Size(17, 23);
             lbl_guestid.TabIndex = 83;
-            lbl_guestid.Text = "lbl_guestid";
+            lbl_guestid.Text = "-";
             // 
             // panel2
             // 
             panel2.BackColor = SystemColors.ActiveCaption;
+            panel2.Controls.Add(label15);
+            panel2.Controls.Add(lbl_balance);
+            panel2.Controls.Add(label16);
+            panel2.Controls.Add(txt_payment);
+            panel2.Controls.Add(label14);
+            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(txt_numnights);
             panel2.Controls.Add(combo_room);
@@ -395,15 +390,80 @@
             panel2.Controls.Add(label9);
             panel2.Controls.Add(txtInitialadmin);
             panel2.Controls.Add(dtpBirtdateadmin);
-            panel2.Controls.Add(txt_time);
             panel2.Controls.Add(label8);
             panel2.Controls.Add(label7);
-            panel2.Controls.Add(label2);
             panel2.Location = new Point(-1, 139);
             panel2.Name = "panel2";
             panel2.Size = new Size(570, 989);
             panel2.TabIndex = 84;
             panel2.Paint += panel2_Paint;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Arial", 12F);
+            label15.Location = new Point(380, 631);
+            label15.Name = "label15";
+            label15.Size = new Size(49, 23);
+            label15.TabIndex = 92;
+            label15.Text = "PHP";
+            // 
+            // lbl_balance
+            // 
+            lbl_balance.AutoSize = true;
+            lbl_balance.Font = new Font("Arial", 12F);
+            lbl_balance.Location = new Point(452, 631);
+            lbl_balance.Name = "lbl_balance";
+            lbl_balance.Size = new Size(17, 23);
+            lbl_balance.TabIndex = 91;
+            lbl_balance.Text = "-";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Arial", 12F);
+            label16.Location = new Point(12, 631);
+            label16.Name = "label16";
+            label16.Size = new Size(86, 23);
+            label16.TabIndex = 90;
+            label16.Text = "Balance:";
+            // 
+            // txt_payment
+            // 
+            txt_payment.Font = new Font("Arial", 12F);
+            txt_payment.Location = new Point(192, 561);
+            txt_payment.Name = "txt_payment";
+            txt_payment.Size = new Size(317, 30);
+            txt_payment.TabIndex = 87;
+            txt_payment.TextChanged += txt_payment_TextChanged;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Arial", 12F);
+            label14.Location = new Point(14, 561);
+            label14.Name = "label14";
+            label14.Size = new Size(93, 23);
+            label14.TabIndex = 86;
+            label14.Text = "Payment:";
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(424, 239);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(86, 30);
+            textBox1.TabIndex = 85;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Arial", 12F);
+            label2.Location = new Point(344, 244);
+            label2.Name = "label2";
+            label2.Size = new Size(64, 23);
+            label2.TabIndex = 84;
+            label2.Text = "Suffix:";
             // 
             // dtg_guestinfo
             // 
@@ -429,11 +489,21 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Arial", 12F);
-            label13.Location = new Point(575, 675);
+            label13.Location = new Point(575, 648);
             label13.Name = "label13";
             label13.Size = new Size(218, 23);
             label13.TabIndex = 86;
             label13.Text = "Reservation Information";
+            // 
+            // button2
+            // 
+            button2.Font = new Font("Arial", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button2.Location = new Point(1059, 258);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 37);
+            button2.TabIndex = 87;
+            button2.Text = "Print";
+            button2.UseVisualStyleBackColor = true;
             // 
             // AdminReservation
             // 
@@ -441,6 +511,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Silver;
             ClientSize = new Size(1924, 987);
+            Controls.Add(button2);
             Controls.Add(label13);
             Controls.Add(label11);
             Controls.Add(dtg_guestinfo);
@@ -454,7 +525,7 @@
             Controls.Add(txtSearchadmin);
             Controls.Add(panel1);
             Name = "AdminReservation";
-            Text = "AdminReservation";
+            Text = "R";
             Load += AdminReservation_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -483,8 +554,6 @@
         private Label label1;
         private Label label6;
         private TextBox txtInitialadmin;
-        private Label label2;
-        private TextBox txt_time;
         private Label label9;
         private DateTimePicker dateTimePicker1;
         private Button btnview;
@@ -504,5 +573,13 @@
         private DataGridView dtg_guestinfo;
         private Label label11;
         private Label label13;
+        private TextBox textBox1;
+        private Label label2;
+        private TextBox txt_payment;
+        private Label label14;
+        private Button button2;
+        private Label lbl_balance;
+        private Label label16;
+        private Label label15;
     }
 }

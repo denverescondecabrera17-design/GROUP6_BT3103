@@ -77,5 +77,10 @@ namespace CODEINN.UI
             txtPassword.Clear();
             txtUsername.Focus();
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

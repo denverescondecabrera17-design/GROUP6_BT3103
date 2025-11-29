@@ -12,13 +12,16 @@ namespace CODEINN.Model
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string MiddleInitial { get; set; }
+        public string Suffix { get; set; }        // ADDED
         public string ContactNumber { get; set; }
         public string Email { get; set; }
 
-      
         public DateTime? BirthDate { get; set; }
         public int? Age { get; set; }
         public string Gender { get; set; }
         public string Address { get; set; }
+
+        public string IDType { get; set; }        // ADDED
     }
+
 }

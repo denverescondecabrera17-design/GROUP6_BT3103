@@ -11,5 +11,9 @@ namespace CODEINN.Model
         public decimal Price { get; set; }
         public DateTime PaymentDate { get; set; }
         public string Status { get; set; }
+
+        public decimal Balance { get; set; }  // ADD THIS
+
+        public String RoomNumber { get; set; }
     }
 }

@@ -41,6 +41,7 @@
             label15 = new Label();
             label16 = new Label();
             label17 = new Label();
+            txt_print = new Button();
             SuspendLayout();
             // 
             // label1
@@ -137,7 +138,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label10.Location = new Point(207, 128);
+            label10.Location = new Point(528, 128);
             label10.Name = "label10";
             label10.Size = new Size(32, 23);
             label10.TabIndex = 9;
@@ -147,7 +148,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.Location = new Point(207, 171);
+            label11.Location = new Point(528, 171);
             label11.Name = "label11";
             label11.Size = new Size(32, 23);
             label11.TabIndex = 10;
@@ -157,7 +158,7 @@
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.Location = new Point(207, 210);
+            label12.Location = new Point(528, 210);
             label12.Name = "label12";
             label12.Size = new Size(32, 23);
             label12.TabIndex = 11;
@@ -167,7 +168,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label13.Location = new Point(207, 248);
+            label13.Location = new Point(528, 248);
             label13.Name = "label13";
             label13.Size = new Size(32, 23);
             label13.TabIndex = 12;
@@ -177,7 +178,7 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label14.Location = new Point(204, 290);
+            label14.Location = new Point(525, 290);
             label14.Name = "label14";
             label14.Size = new Size(32, 23);
             label14.TabIndex = 13;
@@ -187,7 +188,7 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label15.Location = new Point(204, 326);
+            label15.Location = new Point(525, 326);
             label15.Name = "label15";
             label15.Size = new Size(32, 23);
             label15.TabIndex = 14;
@@ -197,7 +198,7 @@
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(203, 366);
+            label16.Location = new Point(524, 366);
             label16.Name = "label16";
             label16.Size = new Size(32, 23);
             label16.TabIndex = 15;
@@ -207,17 +208,27 @@
             // 
             label17.AutoSize = true;
             label17.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label17.Location = new Point(204, 404);
+            label17.Location = new Point(525, 404);
             label17.Name = "label17";
             label17.Size = new Size(32, 23);
             label17.TabIndex = 16;
             label17.Text = "00";
+            // 
+            // txt_print
+            // 
+            txt_print.Location = new Point(528, 451);
+            txt_print.Name = "txt_print";
+            txt_print.Size = new Size(94, 29);
+            txt_print.TabIndex = 17;
+            txt_print.Text = "Print";
+            txt_print.UseVisualStyleBackColor = true;
             // 
             // Invoice
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(660, 492);
+            Controls.Add(txt_print);
             Controls.Add(label17);
             Controls.Add(label16);
             Controls.Add(label15);
@@ -237,6 +248,7 @@
             Controls.Add(label1);
             Name = "Invoice";
             Text = "Invoice";
+            Load += Invoice_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -260,5 +272,6 @@
         private Label label15;
         private Label label16;
         private Label label17;
+        private Button txt_print;
     }
 }

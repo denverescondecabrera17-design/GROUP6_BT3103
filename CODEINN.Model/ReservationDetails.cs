@@ -19,9 +19,10 @@ namespace CODEINN.Model
         public DateTime CheckOutDate { get; set; }
         public int NumberOfNights { get; set; }
         public string Status { get; set; }
-        public string? CheckInTime { get; set; } 
 
         public int RoomID { get; set; }
+        public decimal? Payment { get; set; } // Nullable to account for non-paid reservations
+        public decimal? Balance { get; set; } // Nullable to reflect unprocessed balance
 
 
     }

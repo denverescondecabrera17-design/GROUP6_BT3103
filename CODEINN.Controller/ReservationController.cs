@@ -1,72 +1,115 @@
-﻿using CODEINN.Model;
+﻿using System;
+using System.Collections.Generic;
+using CODEINN.Model;
 using CODEINN.Model.CODEINN.Model;
 using CODEINN.Repository;
 
-public class ReservationController
+namespace CODEINN.Controller
 {
-    private readonly ReservationRepository repository;
-
-    public ReservationController()
+    public class ReservationController
     {
-        repository = new ReservationRepository();
-    }
+        private readonly ReservationRepository reservationRepository;
+        private readonly RoomRepository roomRepository;
 
-    public int AddReservation(Reservation reservation)
-    {
-        return repository.AddReservation(reservation);
-    }
+        public ReservationController()
+        {
+            reservationRepository = new ReservationRepository();
+            roomRepository = new RoomRepository();
+        }
 
-    public bool UpdateReservation(Reservation reservation)
-    {
-        return repository.UpdateReservation(reservation);
-    }
+        // ADD RESERVATION
+        public int AddReservation(Reservation reservation)
+        {
+            if (reservation == null)
+                throw new ArgumentNullException(nameof(reservation));
 
-    public List<Reservation> GetAllReservations()
-    {
-        return repository.GetAllReservations();
-    }
+            return reservationRepository.AddReservation(reservation);
+        }
 
-    public List<Rooms> GetAvailableRoomsByType(string roomType)
-    {
-        return repository.GetAvailableRoomsByType(roomType);
-    }
+        // UPDATE RESERVATION
+        public bool UpdateReservation(Reservation reservation)
+        {
+            if (reservation == null)
+                return false;
 
-    public Reservation GetActiveReservationByGuest(int guestId)
-    {
-        return repository.GetActiveReservationByGuest(guestId);
-    }
+            return reservationRepository.UpdateReservation(reservation);
+        }
 
-    public bool DeleteReservation(int reservationId)
-    {
-        return repository.DeleteReservation(reservationId);
-    }
+        // DELETE RESERVATION
+        public bool DeleteReservation(int reservationId)
+        {
+            if (reservationId <= 0)
+                return false;
+
+            return reservationRepository.DeleteReservation(reservationId);
+        }
+
+        // GET ALL RESERVATIONS
+        public List<Reservation> GetAllReservations()
+        {
+            return reservationRepository.GetAllReservations();
+        }
+
+        // JOIN: Guest + Room + Reservation
+        public List<ReservationDetails> GetReservationDetails()
+        {
+            return reservationRepository.GetReservationDetails();
+        }
+
+        // SEARCH
+        public List<ReservationDetails> SearchReservations(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+                return new List<ReservationDetails>();
+
+            return reservationRepository.SearchReservations(keyword);
+        }
+
+        // GET ALL AVAILABLE ROOMS
+        public List<Rooms> GetAvailableRooms()
+        {
+            return reservationRepository.GetAvailableRooms();
+        }
+
+        // GET AVAILABLE ROOMS BY TYPE → USE ROOM REPOSITORY (correct)
+        public List<Rooms> GetAvailableRoomsByType(string roomType)
+        {
+            return roomRepository.GetAvailableRoomsByType(roomType);
+        }
+
+        // GET ROOM BY ID → MUST USE roomRepository (fixed)
+        public Rooms GetRoomById(int roomId)
+        {
+            return roomRepository.GetAllRooms().Find(r => r.RoomID == roomId);
+        }
+
+        // CHECK IF GUEST HAS ACTIVE RESERVATION
+        public Reservation GetActiveReservationByGuest(int guestId)
+        {
+            return reservationRepository.GetActiveReservationByGuest(guestId);
+        }
+
+        // UPDATE ROOM AVAILABILITY
+        public bool UpdateRoomAvailability(int roomId, bool isAvailable)
+        {
+            return reservationRepository.UpdateRoomAvailability(roomId, isAvailable);
+        }
+
+        // GET ROOM PRICE (correct: delegate to RoomRepository)
+        public decimal GetRoomPrice(int roomId)
+        {
+            return roomRepository.GetRoomPrice(roomId);
+        }
+
+        // ADD PAYMENT RECORD
+        public int AddPayment(PaymentModel payment)
+        {
+            if (payment == null)
+                throw new ArgumentNullException(nameof(payment));
+
+            return reservationRepository.AddPayment(payment);
+        }
 
 
-    public bool UpdateRoomAvailability(int roomId, bool isAvailable)
-    {
-        return repository.UpdateRoomAvailability(roomId, isAvailable);
     }
-
-    public List<ReservationDetails> GetReservationDetails()
-    {
-        return repository.GetReservationDetails();
-    }
-
-   
-    public Rooms GetRoomById(int roomId)
-    {
-        return repository.GetRoomById(roomId);
-    }
-    public List<ReservationDetails> SearchReservations(string keyword)
-    {
-        var repo = new ReservationRepository();
-        return repo.SearchReservations(keyword);
-    }
-    public List<Guests> SearchGuests(string keyword)
-    {
-        var repo = new GuestRepository();
-        return repo.SearchGuests(keyword);
-    }
-
-
 }

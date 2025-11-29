@@ -90,64 +90,105 @@ namespace CODEINN.UI
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
-        {
-
-            // 1️⃣ Validate guest and selected room
+        {// 1) Validate guest and room
             if (!ValidateGuestAndRoom(out int guestId, out Rooms selectedRoom)) return;
 
-            // 2️⃣ Check if the guest already has an active reservation
+            // 2) Active reservation check
             var existingReservation = reservationController.GetActiveReservationByGuest(guestId);
             if (existingReservation != null)
             {
                 MessageBox.Show("This guest already has an active reservation!");
                 return;
             }
-
-            // 3️⃣ Get and validate dates
+            // 3) Dates
             DateTime checkIn = dtpBirtdateadmin.Value.Date;
             DateTime checkOut = dateTimePicker1.Value.Date;
 
             if (!ValidateDates(checkIn, checkOut)) return;
 
-            int nights = (checkOut - checkIn).Days;
+            // Calculate the number of nights (no +1)
+            int nights = (checkOut - checkIn).Days;  // No +1 to avoid including the check-out date
 
-            // 4️⃣ Create reservation object
+            // Ensure the nights count is at least 1
+            if (nights < 1)
+            {
+                nights = 1;  // If check-in and check-out are the same day, it's considered 1 night
+            }
+
+            // 4) Show the calculated number of nights in the textbox
+            txt_numnights.Text = nights.ToString();  // This will display the number of nights in the txt_numnights textbox
+
+            // 5) Compute total price  
+            decimal roomPrice = reservationController.GetRoomPrice(selectedRoom.RoomID);
+            decimal total = roomPrice * nights;
+
+            // 6) Insert reservation
             var reservation = new Reservation
             {
                 GuestID = guestId,
                 RoomID = selectedRoom.RoomID,
                 CheckInDate = checkIn,
                 CheckOutDate = checkOut,
-                CheckInTime = txt_time.Text.Trim(),
                 NumberOfNights = nights,
                 Status = "Reserved"
             };
 
-            // 5️⃣ Add reservation
-            reservationController.AddReservation(reservation);
+            int reservationId = reservationController.AddReservation(reservation);
 
-            // 6️⃣ Mark room as unavailable
+            // 7) Set room unavailable
             reservationController.UpdateRoomAvailability(selectedRoom.RoomID, false);
 
-            MessageBox.Show("Reservation added successfully!");
+            // 8) Payment inputs
+            decimal received = 0;
+            decimal.TryParse(txt_payment.Text, out received);
 
-            // 7️⃣ Reset input fields
+            // Compute balance + change
+            decimal balance = total - received;
+            decimal change = 0;
+
+            if (received >= total)
+            {
+                change = received - total;
+                balance = 0;
+            }
+
+            string status = balance <= 0 ? "Paid" : "Partial";
+
+            // 9) Save payment
+            var payment = new PaymentModel
+            {
+                ReservationID = reservationId,
+                AmountReceived = received,
+                Balance = balance,
+                Price = total,
+                Status = status
+            };
+
+            reservationController.AddPayment(payment);  // Ensure payment is added to the database
+
+            // 10) Show amounts
+            lbl_balance.Text = balance.ToString("0.00");
+
+            MessageBox.Show($"Reservation added successfully!\nPayment status: {status}");
+
+            // 11) Reset fields
             txtFirstnameadmin.Clear();
-            txtInitialadmin.Clear();
             txtLastnameadmin.Clear();
+            txtInitialadmin.Clear();
+            txt_payment.Clear();
+            txt_numnights.Clear();  // Reset the nights textbox after the reservation is added
             combo_roomtype.SelectedIndex = -1;
             combo_room.SelectedIndex = -1;
-            dtpBirtdateadmin.Value = DateTime.Today;
-            dateTimePicker1.Value = DateTime.Today;
-            txt_numnights.Clear();
-            txt_time.Clear();
 
-            txtFirstnameadmin.Focus();
+            // Optionally reset any labels or additional UI elements
+            lbl_balance.Text = "0.00";
 
-            // 8️⃣ Refresh grids and available rooms
+            // 12) Reload data
             LoadReservationList();
             RefreshAvailableRooms();
         }
+
+
 
 
         private void dtpCheckOut_ValueChanged(object sender, EventArgs e)
@@ -181,7 +222,6 @@ namespace CODEINN.UI
                 RoomID = selectedRoom.RoomID,
                 CheckInDate = checkIn,
                 CheckOutDate = checkOut,
-                CheckInTime = txt_time.Text.Trim(),
                 NumberOfNights = nights,
                 Status = "Reserved"
             };
@@ -218,7 +258,7 @@ namespace CODEINN.UI
             dtpBirtdateadmin.Value = Convert.ToDateTime(row.Cells["CheckInDate"].Value);
             dateTimePicker1.Value = Convert.ToDateTime(row.Cells["CheckOutDate"].Value);
             txt_numnights.Text = row.Cells["NumberOfNights"].Value.ToString();
-            txt_time.Text = row.Cells["CheckInTime"].Value?.ToString() ?? "";
+
 
             txtFirstnameadmin.Text = row.Cells["FirstName"].Value.ToString();
             txtLastnameadmin.Text = row.Cells["LastName"].Value.ToString();
@@ -324,21 +364,53 @@ namespace CODEINN.UI
                 // Dates & Time
                 dtpBirtdateadmin.Value = Convert.ToDateTime(row.Cells["CheckInDate"].Value);
                 dateTimePicker1.Value = Convert.ToDateTime(row.Cells["CheckOutDate"].Value);
-                txt_time.Text = row.Cells["CheckInTime"].Value?.ToString() ?? "";
+
                 txt_numnights.Text = row.Cells["NumberOfNights"].Value.ToString();
+
+                // Balance
+                if (row.Cells["Balance"] != null && row.Cells["Balance"].Value != DBNull.Value)
+                {
+                    decimal balance = Convert.ToDecimal(row.Cells["Balance"].Value);
+                    lbl_balance.Text = balance.ToString("0.00");
+                }
+                else
+                {
+                    lbl_balance.Text = "0.00"; // Default if no balance is found
+                }
             }
+
         }
 
 
         private void txt_numnights_TextChanged(object sender, EventArgs e)
         {
-
+            CalculateBalance();
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            TimeSpan stay = dateTimePicker1.Value - dtpBirtdateadmin.Value;
-            txt_numnights.Text = stay.Days > 0 ? stay.Days.ToString() : "0";
+            // Get the check-in and check-out dates without time information
+            DateTime checkIn = dtpBirtdateadmin.Value.Date;  // Check-in date
+            DateTime checkOut = dateTimePicker1.Value.Date;  // Check-out date
+
+            // Ensure check-out is after check-in
+            if (checkOut <= checkIn)
+            {
+                MessageBox.Show("Check-out date must be after the check-in date.");
+                return;
+            }
+
+            // Calculate the number of nights (including both check-in and check-out dates)
+            int nights = (checkOut - checkIn).Days;  // Calculate the difference in days
+
+            // If the check-out is the same day as check-in, ensure it's 1 night
+            if (nights < 1)
+            {
+                nights = 1;  // Ensure there's at least 1 night
+            }
+
+            // Update the txt_numnights textbox with the calculated nights
+            txt_numnights.Text = nights.ToString();
         }
 
         private void combo_roomtype_SelectedIndexChanged(object sender, EventArgs e)
@@ -421,7 +493,6 @@ namespace CODEINN.UI
                 RoomID = selectedRoom.RoomID,
                 CheckInDate = checkIn,
                 CheckOutDate = checkOut,
-                CheckInTime = txt_time.Text.Trim(),
                 NumberOfNights = nights,
                 Status = "Reserved"
             };
@@ -429,7 +500,31 @@ namespace CODEINN.UI
             bool updated = reservationController.UpdateReservation(reservation);
             if (updated)
             {
+                // Calculate balance
+                CalculateBalance();
+
+                // Create and save the payment
+                decimal received = 0;
+                decimal.TryParse(txt_payment.Text, out received);
+
+                decimal total = reservationController.GetRoomPrice(selectedRoom.RoomID) * nights;
+                decimal balance = total - received;
+                string status = balance <= 0 ? "Paid" : "Partial";
+
+                var payment = new PaymentModel
+                {
+                    ReservationID = selectedReservationId,
+                    AmountReceived = received,
+                    Balance = balance,
+                    Price = total,
+                    Status = status
+                };
+
+                reservationController.AddPayment(payment);  // Ensure payment is added to the database
+
                 MessageBox.Show("Reservation updated successfully!");
+
+                // Refresh reservation list
                 LoadReservationList();
                 RefreshAvailableRooms();
             }
@@ -495,6 +590,48 @@ namespace CODEINN.UI
                 txtSearchadmin.Text = "Search Guest";
                 txtSearchadmin.ForeColor = Color.Gray;
             }
+        }
+
+        private void CalculateBalance()
+        {
+            // Ensure room is selected, and textboxes for nights and payment are not empty
+            if (combo_room.SelectedValue == null || string.IsNullOrWhiteSpace(txt_numnights.Text) || string.IsNullOrWhiteSpace(txt_payment.Text))
+                return;
+
+            // Parse the number of nights (from the text box)
+            int nights = int.Parse(txt_numnights.Text);
+
+            // Get the selected room ID
+            int roomId = (int)combo_room.SelectedValue;
+
+            // Get the price of the selected room
+            decimal roomPrice = reservationController.GetRoomPrice(roomId);
+
+            // Calculate the total price for the reservation
+            decimal total = roomPrice * nights;
+
+            // Parse the payment amount received from the textbox
+            decimal received = 0;
+            decimal.TryParse(txt_payment.Text, out received);
+
+            // Calculate the balance (total - received amount)
+            decimal balance = total - received;
+
+            // Check if balance is zero or negative, set the payment status accordingly
+            string status = balance <= 0 ? "Paid" : "Partial";
+
+            // Display the balance in the label
+            lbl_balance.Text = balance.ToString("0.00");
+
+            // Optionally, show the payment status if needed
+            // lbl_paymentStatus.Text = status;
+        }
+
+
+
+        private void txt_payment_TextChanged(object sender, EventArgs e)
+        {
+            CalculateBalance();
         }
     }
 }

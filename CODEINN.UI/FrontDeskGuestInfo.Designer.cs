@@ -40,7 +40,6 @@
             label9 = new Label();
             label10 = new Label();
             label11 = new Label();
-            txtGuestId = new TextBox();
             txtLastname = new TextBox();
             txtAge = new TextBox();
             txtEmail = new TextBox();
@@ -56,6 +55,11 @@
             btnEdit = new Button();
             btnview = new Button();
             panel2 = new Panel();
+            lbl_guestid = new Label();
+            txt_suffix = new TextBox();
+            label13 = new Label();
+            cb_idtype = new ComboBox();
+            label12 = new Label();
             txtadress = new TextBox();
             label2 = new Label();
             panel1.SuspendLayout();
@@ -213,14 +217,6 @@
             label11.Text = "Phone Number:";
             label11.Click += label11_Click;
             // 
-            // txtGuestId
-            // 
-            txtGuestId.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtGuestId.Location = new Point(200, 70);
-            txtGuestId.Name = "txtGuestId";
-            txtGuestId.Size = new Size(319, 30);
-            txtGuestId.TabIndex = 13;
-            // 
             // txtLastname
             // 
             txtLastname.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -353,10 +349,14 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.ActiveCaption;
+            panel2.Controls.Add(lbl_guestid);
+            panel2.Controls.Add(txt_suffix);
+            panel2.Controls.Add(label13);
+            panel2.Controls.Add(cb_idtype);
+            panel2.Controls.Add(label12);
             panel2.Controls.Add(txtadress);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label11);
-            panel2.Controls.Add(txtGuestId);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(txtLastname);
             panel2.Controls.Add(label3);
@@ -378,6 +378,54 @@
             panel2.Size = new Size(570, 989);
             panel2.TabIndex = 29;
             panel2.Paint += panel2_Paint;
+            // 
+            // lbl_guestid
+            // 
+            lbl_guestid.AutoSize = true;
+            lbl_guestid.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_guestid.Location = new Point(198, 73);
+            lbl_guestid.Name = "lbl_guestid";
+            lbl_guestid.Size = new Size(17, 23);
+            lbl_guestid.TabIndex = 136;
+            lbl_guestid.Text = "-";
+            // 
+            // txt_suffix
+            // 
+            txt_suffix.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txt_suffix.Location = new Point(432, 251);
+            txt_suffix.Name = "txt_suffix";
+            txt_suffix.Size = new Size(77, 30);
+            txt_suffix.TabIndex = 56;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.Location = new Point(352, 254);
+            label13.Name = "label13";
+            label13.Size = new Size(64, 23);
+            label13.TabIndex = 55;
+            label13.Text = "Suffix:";
+            // 
+            // cb_idtype
+            // 
+            cb_idtype.Font = new Font("Arial Narrow", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cb_idtype.FormattingEnabled = true;
+            cb_idtype.Items.AddRange(new object[] { "Passport", "Driver License", "National ID", "Student ID" });
+            cb_idtype.Location = new Point(195, 680);
+            cb_idtype.Name = "cb_idtype";
+            cb_idtype.Size = new Size(201, 32);
+            cb_idtype.TabIndex = 54;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label12.Location = new Point(36, 689);
+            label12.Name = "label12";
+            label12.Size = new Size(85, 23);
+            label12.TabIndex = 53;
+            label12.Text = "ID Type:";
             // 
             // txtadress
             // 
@@ -442,7 +490,6 @@
         private Label label9;
         private Label label10;
         private Label label11;
-        private TextBox txtGuestId;
         private TextBox txtLastname;
         private TextBox txtAge;
         private TextBox txtEmail;
@@ -462,5 +509,10 @@
         private PictureBox pictureBox1;
         private TextBox txtadress;
         private Label label2;
+        private TextBox txt_suffix;
+        private Label label13;
+        private ComboBox cb_idtype;
+        private Label label12;
+        private Label lbl_guestid;
     }
 }

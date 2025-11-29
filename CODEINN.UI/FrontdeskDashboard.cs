@@ -100,5 +100,12 @@ namespace CODEINN.UI
             payment.Show();
             this.Hide();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FrontdeskHistory history = new FrontdeskHistory();
+            history.Show();
+            this.Hide();
+        }
     }
 }

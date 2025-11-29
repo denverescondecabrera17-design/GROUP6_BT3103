@@ -11,6 +11,21 @@ namespace CODEINN.Repository
             "Data Source=LAPTOP-JCHBPFPV\\SQLEXPRESS01;Initial Catalog=HOTELFinalldb;Integrated Security=True;TrustServerCertificate=True";
 
    
+        public int GetUnavailableRoomsCount()
+        {
+            int unavailableRoomsCount = 0;
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                string query = "SELECT COUNT(RoomID) FROM Rooms WHERE IsAvailable = 0";
+                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                {
+                    unavailableRoomsCount = (int)sqlCommand.ExecuteScalar();
+                }
+            }
+            return unavailableRoomsCount;
+        }
+
         public List<Rooms> GetAllRooms()
         {
             var rooms = new List<Rooms>();
@@ -149,6 +164,53 @@ namespace CODEINN.Repository
 
             using var cmd = new SqlCommand(query, conn);
             return Convert.ToInt32(cmd.ExecuteScalar());
+        }
+
+        public List<Rooms> GetAvailableRoomsByType(string roomType)
+        {
+            var rooms = new List<Rooms>();
+
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
+
+            string query = @"
+        SELECT RoomID, RoomType, RoomNumber, Price, Status, IsAvailable
+        FROM Rooms
+        WHERE RoomType = @RoomType
+          AND IsAvailable = 1";   // available rooms only
+
+            using var cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@RoomType", roomType);
+
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                rooms.Add(new Rooms
+                {
+                    RoomID = reader.GetInt32(0),
+                    RoomType = reader.GetString(1),
+                    RoomNumber = reader.GetString(2),
+                    Price = reader.IsDBNull(3) ? 0 : reader.GetDecimal(3),
+                    Status = reader.IsDBNull(4) ? "Available" : reader.GetString(4),
+                    IsAvailable = !reader.IsDBNull(5) && reader.GetBoolean(5)
+                });
+            }
+
+            return rooms;
+        }
+
+        public decimal GetRoomPrice(int roomId)
+        {
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
+
+            string query = "SELECT Price FROM Rooms WHERE RoomID = @RoomID";
+            using var cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@RoomID", roomId);
+
+            var result = cmd.ExecuteScalar();
+            return result == null || result == DBNull.Value ? 0m : Convert.ToDecimal(result);
         }
 
 
